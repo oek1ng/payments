@@ -12,7 +12,7 @@ x-app-base: &app-base
 
 services:
   postgres:
-    image: 
+    image: postgres:18
     container_name: payments-postgres
     env_file:
       - .env
