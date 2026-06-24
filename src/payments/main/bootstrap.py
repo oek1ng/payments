@@ -4,6 +4,7 @@ import orjson
 from fastapi import APIRouter, FastAPI
 from psycopg.types.json import set_json_dumps, set_json_loads
 
+from payments.infrastructure.persistence.tables.outbox import outbox_table
 from payments.infrastructure.persistence.tables.payments import map_payments_table
 from payments.main.config import Settings
 from payments.presentation.api.http.v1 import router
@@ -19,6 +20,7 @@ def setup_json() -> None:
 def setup_map_tables() -> None:
     """Register ORM mappings for all tables."""
     map_payments_table()
+    _ = outbox_table
 
 
 def setup_http_routes(app: FastAPI) -> None:
