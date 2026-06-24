@@ -19,6 +19,8 @@ class PaymentCreated(Event[Payment]):
     amount: Decimal
     currency: Currency
     description: str
+    idempotency_key: str
+    webhook_url: str
     metadata: dict[str, Any]
     status: PaymentStatus
     created_at: datetime
@@ -37,6 +39,8 @@ class PaymentCreated(Event[Payment]):
             amount=entity.amount,
             currency=entity.currency,
             description=entity.description,
+            idempotency_key=entity.idempotency_key,
+            webhook_url=entity.webhook_url,
             metadata=entity.metadata,
             status=entity.status,
             created_at=entity.created_at,

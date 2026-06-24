@@ -23,6 +23,8 @@ class CreatePaymentCommand:
     amount: Decimal
     currency: Currency
     description: str
+    idempotency_key: str
+    webhook_url: str
     metadata: dict[str, Any]
 
 
@@ -68,6 +70,8 @@ class CreatePaymentHandler:
             amount=command.amount,
             currency=command.currency,
             description=command.description,
+            idempotency_key=command.idempotency_key,
+            webhook_url=command.webhook_url,
             metadata=command.metadata,
             status=PaymentStatus.PENDING,
             created_at=created_at,

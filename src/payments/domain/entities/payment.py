@@ -21,6 +21,8 @@ class Payment(Entity[PaymentId]):
     amount: Decimal
     currency: Currency
     description: str
+    idempotency_key: str
+    webhook_url: str
     metadata: dict[str, Any]
     status: PaymentStatus
     created_at: datetime
@@ -33,6 +35,8 @@ class Payment(Entity[PaymentId]):
         amount: Decimal,
         currency: Currency,
         description: str,
+        idempotency_key: str,
+        webhook_url: str,
         metadata: dict[str, Any],
         status: PaymentStatus,
         created_at: datetime,
@@ -49,6 +53,8 @@ class Payment(Entity[PaymentId]):
                 amount=amount,
                 currency=currency,
                 description=description,
+                idempotency_key=idempotency_key,
+                webhook_url=webhook_url,
                 metadata=metadata,
                 status=status,
                 created_at=created_at,

@@ -23,6 +23,8 @@ payments_table = Table(
         nullable=False,
     ),
     Column("description", Text, nullable=False),
+    Column("idempotency_key", Text, nullable=False, unique=True),
+    Column("webhook_url", Text, nullable=False),
     Column("metadata", JSONB, nullable=False),
     Column(
         "status",
