@@ -16,7 +16,6 @@ def run_web() -> None:
         port=settings.app.port,
         reload=settings.app.reload,
         factory=True,
-        log_config=None,
     )
 
 
