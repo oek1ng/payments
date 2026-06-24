@@ -26,6 +26,8 @@ class GetPaymentResult:
     amount: Decimal
     currency: Currency
     description: str
+    idempotency_key: str
+    webhook_url: str
     metadata: dict[str, Any]
     status: PaymentStatus
     created_at: datetime
@@ -56,6 +58,8 @@ class GetPaymentHandler:
             amount=payment.amount,
             currency=payment.currency,
             description=payment.description,
+            idempotency_key=payment.idempotency_key,
+            webhook_url=payment.webhook_url,
             metadata=payment.metadata,
             status=payment.status,
             created_at=payment.created_at,
