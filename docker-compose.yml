@@ -1,0 +1,76 @@
+x-app-base: &app-base
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  env_file:
+    - .env
+  environment:
+    POSTGRES_HOST: postgres
+    RABBIT_HOST: rabbitmq
+  volumes:
+    - ./:/app
+
+services:
+  postgres:
+    image: 
+    container_name: payments-postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - payments_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: payments-rabbitmq
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  migrator:
+    <<: *app-base
+    container_name: payments-migrator
+    command: alembic upgrade head
+    volumes: []
+    environment:
+      POSTGRES_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    <<: *app-base
+    container_name: payments-web
+    command: python -m payments.main.entrypoints.web
+    volumes:
+      - ./:/app
+      - payments_map_uploads:/app/volume
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8000:8000"
+
+
+volumes:
+  payments_pg_data:

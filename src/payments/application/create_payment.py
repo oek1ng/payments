@@ -64,6 +64,14 @@ class CreatePaymentHandler:
             The result containing the created payment details.
 
         """
+        existing = await self._payment_gateway.get_by_idempotency_key(command.idempotency_key)
+        if existing is not None:
+            return CreatePaymentResult(
+                payment_id=existing.oid,
+                status=existing.status,
+                created_at=existing.created_at,
+            )
+
         created_at = self._clock.now()
         payment, payment_created = Payment.create(
             oid=PaymentId(self._uuid_generator()),

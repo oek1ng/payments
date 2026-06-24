@@ -15,6 +15,10 @@ class SqlAlchemyPaymentRepository(PaymentGateway):
         """Initialize the repository with an async SQLAlchemy session."""
         self._session = session
 
+    def add(self, payment: Payment) -> None:
+        """Add a new payment to the session."""
+        self._session.add(payment)
+
     async def get_by_id(self, payment_id: PaymentId) -> Payment:
         """Retrieve a payment by its ID.
 
