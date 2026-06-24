@@ -15,7 +15,7 @@ class SqlAlchemyPaymentRepository(PaymentGateway):
         """Initialize the repository with an async SQLAlchemy session."""
         self._session = session
 
-    async def get(self, payment_id: PaymentId) -> Payment:
+    async def get_by_id(self, payment_id: PaymentId) -> Payment:
         """Retrieve a payment by its ID.
 
         Returns:
@@ -26,3 +26,15 @@ class SqlAlchemyPaymentRepository(PaymentGateway):
         result = await self._session.execute(stmt)
 
         return result.scalar_one()
+
+    async def get_by_idempotency_key(self, idempotency_key: str) -> Payment | None:
+        """Retrieve a payment by its idempotency key.
+
+        Returns:
+            The matching payment or None.
+
+        """
+        stmt = select(Payment).where(payments_table.c.idempotency_key == idempotency_key)
+        result = await self._session.execute(stmt)
+
+        return result.scalar_one_or_none()

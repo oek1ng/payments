@@ -15,6 +15,11 @@ class PaymentGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def get(self, payment_id: PaymentId) -> Payment:
+    async def get_by_id(self, payment_id: PaymentId) -> Payment:
         """Retrieve a payment by its ID."""
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_by_idempotency_key(self, idempotency_key: str) -> Payment | None:
+        """Retrieve a payment by its idempotency key."""
         raise NotImplementedError

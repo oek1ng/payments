@@ -51,7 +51,7 @@ class GetPaymentHandler:
             The result containing the payment details.
 
         """
-        payment = await self._payment_gateway.get(command.payment_id)
+        payment = await self._payment_gateway.get_by_id(command.payment_id)
 
         return GetPaymentResult(
             id=payment.oid,

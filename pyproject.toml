@@ -14,6 +14,8 @@ dependencies = [
     "fastapi>=0.138.0",
     "faststream[rabbit]>=0.7.1",
     "sqlalchemy[asyncio]>=2.0.51",
+    "orjson>=3.10.0",
+    "psycopg[binary]>=3.2.0",
     "uvicorn>=0.49.0",
 ]
 
