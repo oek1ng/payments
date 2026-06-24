@@ -61,7 +61,7 @@ services:
   web:
     <<: *app-base
     container_name: payments-web
-    command: python -m payments.main.entrypoints.web
+    command: python -m payments.main.web.entrypoint
     volumes:
       - ./:/app
       - payments_map_uploads:/app/volume

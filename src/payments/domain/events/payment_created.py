@@ -1,18 +1,22 @@
 """Payment created domain event."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
-from typing import Any, Self
+from typing import TYPE_CHECKING, Any, Self
 
-from payments.domain.entities.payment import Payment, PaymentId
+if TYPE_CHECKING:
+    from payments.domain.entities.payment import Payment, PaymentId
+
 from payments.domain.events.base import Event
 from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
-class PaymentCreated(Event[Payment]):
+class PaymentCreated(Event["Payment"]):
     """Event emitted when a new payment is created."""
 
     id: PaymentId
