@@ -47,17 +47,17 @@ class Payment(Entity[PaymentId]):
 
         """
         payment = cls(
-                oid=oid,
-                amount=amount,
-                currency=currency,
-                description=description,
-                idempotency_key=idempotency_key,
-                webhook_url=webhook_url,
-                metadata=metadata,
-                status=status,
-                created_at=created_at,
-                updated_at=updated_at,
-            )
+            oid=oid,
+            amount=amount,
+            currency=currency,
+            description=description,
+            idempotency_key=idempotency_key,
+            webhook_url=webhook_url,
+            metadata=metadata,
+            status=status,
+            created_at=created_at,
+            updated_at=updated_at,
+        )
         return (
             payment,
             PaymentCreated.of(payment),

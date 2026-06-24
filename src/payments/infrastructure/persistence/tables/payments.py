@@ -51,7 +51,6 @@ payments_table = Table(
         server_onupdate=func.now(),
         nullable=False,
     ),
-
 )
 
 

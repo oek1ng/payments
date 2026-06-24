@@ -1,3 +1,5 @@
+"""Web server entry point."""
+
 import uvicorn
 
 from payments.main.config import get_settings
@@ -5,6 +7,7 @@ from payments.main.web.entrypoint import create_app  # noqa: F401
 
 
 def run_web() -> None:
+    """Run the web server with uvicorn."""
     settings = get_settings()
 
     uvicorn.run(

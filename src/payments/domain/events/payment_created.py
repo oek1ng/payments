@@ -8,7 +8,8 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Self
 
 if TYPE_CHECKING:
-    from payments.domain.entities.payment import Payment, PaymentId
+    from payments.domain.entities.payment import Payment
+    from payments.domain.entities.payment_id import PaymentId
 
 from payments.domain.events.base import Event
 from payments.domain.value_objects.currency import Currency
