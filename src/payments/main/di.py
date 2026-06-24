@@ -108,33 +108,28 @@ class AdapterProvider(Provider):
 
     scope = Scope.APP
 
-    @provide
-    def clock(self) -> Clock:
-        return UTCClock()
-
-    @provide
-    def uuid_generator(self) -> UUIDGenerator:
-        return TimeBasedUUIDGenerator()
-
-    @provide(scope=Scope.REQUEST)
-    def payment_gateway(self, session: AsyncSession) -> PaymentGateway:
-        return SqlAlchemyPaymentRepository(session)
-
-    @provide(scope=Scope.REQUEST)
-    def event_collector(self) -> EventCollector:
-        return InMemoryEventCollector()
-
-    @provide(scope=Scope.REQUEST)
-    def event_publisher(
-        self,
-        session: AsyncSession,
-        uuid_gen: UUIDGenerator,
-    ) -> EventPublisher:
-        return OutboxEventPublisher(uuid_gen, session)
-
-    @provide(scope=Scope.REQUEST)
-    def transaction_manager(self, session: AsyncSession) -> TransactionManager:
-        return SATrsansactionManager(session)
+    clock = provide(UTCClock, provides=Clock)
+    uuid_generator = provide(TimeBasedUUIDGenerator, provides=UUIDGenerator)
+    payment_gateway = provide(
+        SqlAlchemyPaymentRepository,
+        provides=PaymentGateway,
+        scope=Scope.REQUEST,
+    )
+    event_collector = provide(
+        InMemoryEventCollector,
+        provides=EventCollector,
+        scope=Scope.REQUEST,
+    )
+    event_publisher = provide(
+        OutboxEventPublisher,
+        provides=EventPublisher,
+        scope=Scope.REQUEST,
+    )
+    transaction_manager = provide(
+        SATrsansactionManager,
+        provides=TransactionManager,
+        scope=Scope.REQUEST,
+    )
 
 
 class HandlerProvider(Provider):
