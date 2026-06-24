@@ -12,7 +12,7 @@ from payments.presentation.api.http.v1.middleware import ApiKeyMiddleware
 
 def setup_json() -> None:
     """Set orjson as the global JSONB serializer and deserializer for psycopg."""
-    set_json_dumps(orjson.dumps)
+    set_json_dumps(lambda obj: orjson.dumps(obj, default=str).decode())
     set_json_loads(orjson.loads)
 
 
