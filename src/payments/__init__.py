@@ -1,2 +1,5 @@
+"""Payments application entrypoint."""
+
+
 def main() -> None:
-    print("Hello from payments!")
+    """Application entry point."""

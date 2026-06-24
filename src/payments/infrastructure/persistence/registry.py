@@ -1,6 +1,7 @@
+"""SQLAlchemy ORM registry and metadata."""
+
 from sqlalchemy import MetaData
 from sqlalchemy.orm import registry
-
 
 metadata = MetaData(
     naming_convention={

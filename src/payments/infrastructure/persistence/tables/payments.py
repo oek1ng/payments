@@ -1,11 +1,12 @@
-from sqlalchemy import Column, DateTime, Enum, Text, Numeric, Table, func
+"""Payments SQLAlchemy table definition."""
+
+from sqlalchemy import Column, DateTime, Enum, Numeric, Table, Text, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 
 from payments.domain.entities.payment import Payment
 from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
 from payments.infrastructure.persistence.registry import mapper_registry, metadata
-
 
 payments_table = Table(
     "payments",
@@ -51,7 +52,9 @@ payments_table = Table(
 
 )
 
+
 def map_payments_table() -> None:
+    """Map the Payment entity to the payments SQLAlchemy table."""
     mapper_registry.map_imperatively(
         Payment,
         payments_table,

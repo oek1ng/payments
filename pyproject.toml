@@ -47,6 +47,9 @@ ignore = [
     "PLR0913",   # Too many arguments
     "PLR6301",   # Method could be function/classmethod
     "CPY001",    # Missing copyright notice (not needed for this project)
+    "TC001",     # Move first-party import into TYPE_CHECKING
+    "TC002",     # Move third-party import into TYPE_CHECKING
+    "TC003",     # Move standard library import into TYPE_CHECKING
 ]
 
 [tool.ruff.lint.per-file-ignores]

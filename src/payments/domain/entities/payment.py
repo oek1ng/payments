@@ -1,3 +1,5 @@
+"""Payment aggregate root."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
@@ -14,6 +16,8 @@ PaymentId = NewType("PaymentId", UUID)
 
 @dataclass(kw_only=True, eq=False)
 class Payment(Entity[PaymentId]):
+    """Payment aggregate root representing a financial transaction."""
+
     amount: Decimal
     currency: Currency
     description: str
@@ -23,7 +27,7 @@ class Payment(Entity[PaymentId]):
     updated_at: datetime
 
     @classmethod
-    def create(
+    def create(  # noqa: PLR0917
         cls,
         oid: PaymentId,
         amount: Decimal,
@@ -34,6 +38,12 @@ class Payment(Entity[PaymentId]):
         created_at: datetime,
         updated_at: datetime,
     ) -> tuple[Self, PaymentCreated]:
+        """Create a new payment and its corresponding event.
+
+        Returns:
+            A tuple of the created payment and its creation event.
+
+        """
         payment = cls(
                 oid=oid,
                 amount=amount,
@@ -48,15 +58,18 @@ class Payment(Entity[PaymentId]):
             payment,
             PaymentCreated.of(payment),
         )
-    
+
     def mark_succeeded(self, updated_at: datetime) -> None:
+        """Mark the payment as succeeded."""
         self.status = PaymentStatus.SUCCEEDED
         self.updated_at = updated_at
 
     def mark_failed(self, updated_at: datetime) -> None:
+        """Mark the payment as failed."""
         self.status = PaymentStatus.FAILED
         self.updated_at = updated_at
 
     def mark_pending(self) -> None:
+        """Revert the payment status to pending."""
         self.status = PaymentStatus.PENDING
         self.updated_at = self.updated_at

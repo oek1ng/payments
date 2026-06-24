@@ -1,3 +1,5 @@
+"""Payment created domain event."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
@@ -11,6 +13,8 @@ from payments.domain.value_objects.payment_status import PaymentStatus
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class PaymentCreated(Event[Payment]):
+    """Event emitted when a new payment is created."""
+
     id: PaymentId
     amount: Decimal
     currency: Currency
@@ -22,6 +26,12 @@ class PaymentCreated(Event[Payment]):
 
     @classmethod
     def of(cls, entity: Payment) -> Self:
+        """Create a PaymentCreated event from a Payment entity.
+
+        Returns:
+            A new PaymentCreated event.
+
+        """
         return cls(
             id=entity.oid,
             amount=entity.amount,

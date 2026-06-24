@@ -1,3 +1,5 @@
+"""In-memory event collector adapter."""
+
 from typing import Any
 
 from payments.application.ports.event_collector import EventCollector
@@ -5,12 +7,21 @@ from payments.domain.events.base import Event
 
 
 class InMemoryEventCollector(EventCollector):
+    """In-memory implementation of EventCollector."""
 
     def __init__(self) -> None:
-        self._events = []
+        """Initialize an empty event collector."""
+        self._events: list[Event[Any]] = []
 
-    def add(self, *events: Event) -> None:
+    def add(self, *events: Event[Any]) -> None:
+        """Add events to the in-memory collection."""
         self._events.extend(events)
 
     def collect(self) -> list[Event[Any]]:
+        """Return and clear the collected events.
+
+        Returns:
+            The list of collected events.
+
+        """
         return self._events

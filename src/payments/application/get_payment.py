@@ -1,9 +1,10 @@
+"""Get payment use case."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from typing import Any
 
-from payments.application.common.handler import Handler
 from payments.application.ports.payment_gateway import PaymentGateway
 from payments.domain.entities.payment import PaymentId
 from payments.domain.value_objects.currency import Currency
@@ -12,11 +13,15 @@ from payments.domain.value_objects.payment_status import PaymentStatus
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class GetPaymentCommand:
+    """Command to retrieve a payment by ID."""
+
     payment_id: PaymentId
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class GetPaymentResult:
+    """Result containing payment details."""
+
     id: PaymentId
     amount: Decimal
     currency: Currency
@@ -27,15 +32,23 @@ class GetPaymentResult:
     updated_at: datetime
 
 
-class CreatePaymentHandler(Handler):
+class GetPaymentHandler:
+    """Handles retrieval of a payment by ID."""
 
     def __init__(
         self,
         payment_gateway: PaymentGateway,
     ) -> None:
+        """Initialize the handler with required dependencies."""
         self._payment_gateway = payment_gateway
 
     async def __call__(self, command: GetPaymentCommand) -> GetPaymentResult:
+        """Process the payment retrieval command.
+
+        Returns:
+            The result containing the payment details.
+
+        """
         payment = await self._payment_gateway.get(command.payment_id)
 
         return GetPaymentResult(

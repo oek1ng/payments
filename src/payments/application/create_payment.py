@@ -1,10 +1,11 @@
+"""Create payment use case."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from typing import Any
 
 from payments.application.ports.clock import Clock
-from payments.application.common.handler import Handler
 from payments.application.ports.event_collector import EventCollector
 from payments.application.ports.event_publisher import EventPublisher
 from payments.application.ports.payment_gateway import PaymentGateway
@@ -15,9 +16,10 @@ from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
 
 
-
 @dataclass(frozen=True, kw_only=True, slots=True)
 class CreatePaymentCommand:
+    """Command to create a new payment."""
+
     amount: Decimal
     currency: Currency
     description: str
@@ -26,14 +28,17 @@ class CreatePaymentCommand:
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class CreatePaymentResult:
+    """Result of creating a payment."""
+
     payment_id: PaymentId
     status: PaymentStatus
     created_at: datetime
 
 
-class CreatePaymentHandler(Handler):
+class CreatePaymentHandler:
+    """Handles the creation of a new payment."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0917
         self,
         clock: Clock,
         uuid_generator: UUIDGenerator,
@@ -42,6 +47,7 @@ class CreatePaymentHandler(Handler):
         event_collector: EventCollector,
         transaction_manager: TransactionManager,
     ) -> None:
+        """Initialize the handler with required dependencies."""
         self._clock = clock
         self._uuid_generator = uuid_generator
         self._payment_gateway = payment_gateway
@@ -50,6 +56,12 @@ class CreatePaymentHandler(Handler):
         self._transaction_manager = transaction_manager
 
     async def __call__(self, command: CreatePaymentCommand) -> CreatePaymentResult:
+        """Process the payment creation command.
+
+        Returns:
+            The result containing the created payment details.
+
+        """
         created_at = self._clock.now()
         payment, payment_created = Payment.create(
             oid=PaymentId(self._uuid_generator()),
