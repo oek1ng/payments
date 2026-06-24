@@ -3,7 +3,8 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from payments.domain.entities.payment import Payment, PaymentId
+from payments.domain.entities.payment import Payment
+from payments.domain.entities.payment_id import PaymentId
 
 
 class PaymentGateway(Protocol):

@@ -4,7 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from payments.application.ports.payment_gateway import PaymentGateway
-from payments.domain.entities.payment import Payment, PaymentId
+from payments.domain.entities.payment import Payment
+from payments.domain.entities.payment_id import PaymentId
 from payments.infrastructure.persistence.tables.payments import payments_table
 
 

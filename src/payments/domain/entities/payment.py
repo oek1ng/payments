@@ -3,15 +3,13 @@
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
-from typing import Any, NewType, Self
-from uuid import UUID
+from typing import Any, Self
 
 from payments.domain.entities.base import Entity
+from payments.domain.entities.payment_id import PaymentId
 from payments.domain.events.payment_created import PaymentCreated
 from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
-
-PaymentId = NewType("PaymentId", UUID)
 
 
 @dataclass(kw_only=True, eq=False)

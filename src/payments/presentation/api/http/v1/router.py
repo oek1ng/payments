@@ -12,7 +12,7 @@ from payments.application.create_payment import (
     CreatePaymentHandler,
 )
 from payments.application.get_payment import GetPaymentCommand, GetPaymentHandler
-from payments.domain.entities.payment import PaymentId
+from payments.domain.entities.payment_id import PaymentId
 from payments.presentation.api.http.v1.schemas import (
     CreatePaymentRequest,
     CreatePaymentResponse,

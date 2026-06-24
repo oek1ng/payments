@@ -6,7 +6,7 @@ from decimal import Decimal
 from typing import Any
 
 from payments.application.ports.payment_gateway import PaymentGateway
-from payments.domain.entities.payment import PaymentId
+from payments.domain.entities.payment_id import PaymentId
 from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
 

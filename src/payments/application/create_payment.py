@@ -11,7 +11,8 @@ from payments.application.ports.event_publisher import EventPublisher
 from payments.application.ports.payment_gateway import PaymentGateway
 from payments.application.ports.transaction_manager import TransactionManager
 from payments.application.ports.uuid_generator import UUIDGenerator
-from payments.domain.entities.payment import Payment, PaymentId
+from payments.domain.entities.payment import Payment
+from payments.domain.entities.payment_id import PaymentId
 from payments.domain.value_objects.currency import Currency
 from payments.domain.value_objects.payment_status import PaymentStatus
 
