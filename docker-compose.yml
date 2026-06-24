@@ -7,8 +7,6 @@ x-app-base: &app-base
   environment:
     POSTGRES_HOST: postgres
     RABBIT_HOST: rabbitmq
-  volumes:
-    - ./:/app
 
 services:
   postgres:
@@ -23,7 +21,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - payments_pg_data:/var/lib/postgresql/data
+      - payments_pg_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -62,9 +60,6 @@ services:
     <<: *app-base
     container_name: payments-web
     command: python -m payments.main.web.entrypoint
-    volumes:
-      - ./:/app
-      - payments_map_uploads:/app/volume
     depends_on:
       migrator:
         condition: service_completed_successfully

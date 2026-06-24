@@ -23,7 +23,7 @@ class AppSettings(BaseSettings):
 class PostgresSettings(BaseSettings):
     """PostgreSQL connection settings."""
 
-    driver: str = "postgresql"
+    driver: str = "postgresql+psycopg"
     user: str = "postgres"
     host: str = "localhost"
     password: str = "postgres"  # noqa: S105
