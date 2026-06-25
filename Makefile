@@ -1,9 +1,9 @@
 .PHONY: lint typecheck check
 
 lint:
-	ruff check src/
+	ruff check src/ packages/
 
 typecheck:
-	mypy src/
+	mypy src/ packages/
 
 check: lint typecheck

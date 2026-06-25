@@ -12,12 +12,6 @@ members = [
     "payments",
 ]
 
-[manifest.dependency-groups]
-dev = [
-    { name = "mypy", specifier = ">=2.1.0" },
-    { name = "ruff", specifier = ">=0.15.19" },
-]
-
 [[package]]
 name = "aio-pika"
 version = "9.6.2"
@@ -170,7 +164,7 @@ wheels = [
 [[package]]
 name = "consumer"
 version = "0.1.0"
-source = { editable = "src/consumer" }
+source = { editable = "packages/consumer" }
 dependencies = [
     { name = "aiosqlite" },
     { name = "faststream", extra = ["rabbit"] },
@@ -556,7 +550,7 @@ wheels = [
 [[package]]
 name = "payments"
 version = "0.1.0"
-source = { editable = "src/payments" }
+source = { editable = "." }
 dependencies = [
     { name = "alembic" },
     { name = "dishka" },
@@ -569,6 +563,12 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "sqlalchemy", extra = ["asyncio"] },
     { name = "uvicorn" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "mypy" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
@@ -584,6 +584,12 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.14.2" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.51" },
     { name = "uvicorn", specifier = ">=0.49.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "mypy", specifier = ">=2.1.0" },
+    { name = "ruff", specifier = ">=0.15.19" },
 ]
 
 [[package]]
