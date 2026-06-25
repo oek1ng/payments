@@ -18,8 +18,6 @@ from sqlalchemy.ext.asyncio import (
 from payments.main.bootstrap import setup_json, setup_map_tables
 from payments.main.config import get_settings
 
-# ── PostgreSQL availability ──────────────────────────────────────────────
-
 
 def _is_postgres_available() -> bool:
     try:
