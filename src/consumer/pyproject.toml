@@ -1,0 +1,17 @@
+[project]
+name = "consumer"
+version = "0.1.0"
+description = "Payment processing consumer"
+requires-python = ">=3.14"
+dependencies = [
+    "faststream[rabbit]>=0.7.1",
+    "aiosqlite>=0.20.0",
+    "pydantic>=2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
