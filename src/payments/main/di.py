@@ -30,7 +30,7 @@ from payments.infrastructure.adapters.clock import UTCClock
 from payments.infrastructure.adapters.event_collector import InMemoryEventCollector
 from payments.infrastructure.adapters.event_publisher import OutboxEventPublisher
 from payments.infrastructure.adapters.payment_repository import SqlAlchemyPaymentRepository
-from payments.infrastructure.adapters.transaction_manager import SATrsansactionManager
+from payments.infrastructure.adapters.transaction_manager import SATransactionManager
 from payments.infrastructure.adapters.uuid_generator import TimeBasedUUIDGenerator
 from payments.main.config import (
     AppSettings,
@@ -126,7 +126,7 @@ class AdapterProvider(Provider):
         scope=Scope.REQUEST,
     )
     transaction_manager = provide(
-        SATrsansactionManager,
+        SATransactionManager,
         provides=TransactionManager,
         scope=Scope.REQUEST,
     )

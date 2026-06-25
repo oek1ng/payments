@@ -2,7 +2,7 @@
 
 from enum import StrEnum, auto
 
-from sqlalchemy import Column, DateTime, Enum, Table, Text, func
+from sqlalchemy import Column, DateTime, Enum, Integer, Table, Text, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 
 from payments.infrastructure.persistence.registry import metadata
@@ -13,6 +13,7 @@ class OutboxStatus(StrEnum):
 
     PENDING = auto()
     PUBLISHED = auto()
+    DEAD = auto()
 
 
 outbox_table = Table(
@@ -30,6 +31,8 @@ outbox_table = Table(
         ),
         nullable=False,
     ),
+    Column("attempts", Integer, nullable=False, default=0, server_default="0"),
+    Column("last_attempt_at", DateTime(timezone=True), nullable=True),
     Column(
         "created_at",
         DateTime(timezone=True),

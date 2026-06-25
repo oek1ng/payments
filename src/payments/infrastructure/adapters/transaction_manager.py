@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from payments.application.ports.transaction_manager import TransactionManager
 
 
-class SATrsansactionManager(TransactionManager):
+class SATransactionManager(TransactionManager):
     """SQLAlchemy implementation of the transaction manager."""
 
     def __init__(self, session: AsyncSession) -> None:

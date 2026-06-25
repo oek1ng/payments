@@ -24,4 +24,6 @@ class InMemoryEventCollector(EventCollector):
             The list of collected events.
 
         """
-        return self._events
+        events = self._events.copy()
+        self._events.clear()
+        return events
