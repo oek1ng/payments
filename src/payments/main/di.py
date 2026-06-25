@@ -143,23 +143,34 @@ class HandlerProvider(Provider):
     )
 
 
-def create_container() -> AsyncContainer:
+def create_container(
+    *extra_providers: Provider,
+    extra_context: dict[type, object] | None = None,
+) -> AsyncContainer:
     """Create and return the root DI container.
+
+    Args:
+        *extra_providers: Additional dishka providers for specific entrypoints.
+        extra_context: Additional context values for the container.
 
     Returns:
         Configured async container with all providers registered.
 
     """
     settings = get_settings()
+    context: dict[type, object] = {
+        AppSettings: settings.app,
+        PostgresSettings: settings.postgres,
+        RabbitSettings: settings.rabbit,
+        OutboxSettings: settings.outbox,
+    }
+    if extra_context:
+        context.update(extra_context)
     return make_async_container(
         ConfigProvider(),
         DatabaseProvider(),
         AdapterProvider(),
         HandlerProvider(),
-        context={
-            AppSettings: settings.app,
-            PostgresSettings: settings.postgres,
-            RabbitSettings: settings.rabbit,
-            OutboxSettings: settings.outbox,
-        },
+        *extra_providers,
+        context=context,
     )

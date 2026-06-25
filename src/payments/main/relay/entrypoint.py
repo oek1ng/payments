@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from payments.infrastructure.adapters.clock import UTCClock
 from payments.infrastructure.adapters.outbox_relay import OutboxRelay
-from payments.infrastructure.broker import PAYMENTS_EXCHANGE, FSRabbitPublisher
+from payments.infrastructure.amqp import PAYMENTS_EXCHANGE, FSRabbitPublisher
 from payments.main.bootstrap import setup_json, setup_map_tables
 from payments.main.config import get_settings
 

@@ -1,7 +1,7 @@
-"""RabbitMQ broker utilities — topology and publisher."""
+"""RabbitMQ AMQP utilities — topology and publisher."""
 
-from payments.infrastructure.broker.publisher import FSRabbitPublisher
-from payments.infrastructure.broker.topology import (
+from payments.infrastructure.amqp.publisher import FSRabbitPublisher
+from payments.infrastructure.amqp.topology import (
     PAYMENTS_DLX,
     PAYMENTS_EXCHANGE,
     PAYMENTS_PROCESSED_DLQ,
