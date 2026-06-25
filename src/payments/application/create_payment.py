@@ -5,6 +5,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Any
 
+from payments.application.common.exceptions import IdempotencyKeyConflictError
 from payments.application.ports.clock import Clock
 from payments.application.ports.event_collector import EventCollector
 from payments.application.ports.event_publisher import EventPublisher
@@ -64,9 +65,19 @@ class CreatePaymentHandler:
         Returns:
             The result containing the created payment details.
 
+        Raises:
+            IdempotencyKeyConflictError: If a payment with this key exists
+                with different parameters.
+
         """
         existing = await self._payment_gateway.get_by_idempotency_key(command.idempotency_key)
         if existing is not None:
+            if (
+                existing.amount != command.amount
+                or existing.currency != command.currency
+                or existing.webhook_url != command.webhook_url
+            ):
+                raise IdempotencyKeyConflictError(command.idempotency_key)
             return CreatePaymentResult(
                 payment_id=existing.oid,
                 status=existing.status,

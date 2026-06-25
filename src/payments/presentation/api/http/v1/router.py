@@ -21,6 +21,19 @@ from payments.presentation.api.http.v1.schemas import (
 
 router = APIRouter(prefix="/payments", tags=["payments"])
 
+health_router = APIRouter(tags=["health"])
+
+
+@health_router.get("/health")
+async def health() -> dict[str, str]:
+    """Health check endpoint.
+
+    Returns:
+        Health status dict.
+
+    """
+    return {"status": "ok"}
+
 
 @router.post("/", status_code=202)
 @inject
