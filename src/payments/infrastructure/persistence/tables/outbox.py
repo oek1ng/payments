@@ -13,7 +13,6 @@ class OutboxStatus(StrEnum):
 
     PENDING = auto()
     PUBLISHED = auto()
-    DEAD = auto()
 
 
 outbox_table = Table(
