@@ -50,8 +50,6 @@ services:
     container_name: payments-migrator
     command: alembic upgrade head
     volumes: []
-    environment:
-      POSTGRES_HOST: postgres
     depends_on:
       postgres:
         condition: service_healthy
@@ -59,13 +57,50 @@ services:
   web:
     <<: *app-base
     container_name: payments-web
-    command: python -m payments.main.web.entrypoint
+    command: python -m payments.main.web
+    environment:
+      APP_HOST: 0.0.0.0
     depends_on:
       migrator:
         condition: service_completed_successfully
     ports:
       - "127.0.0.1:8000:8000"
 
+  relay:
+    <<: *app-base
+    container_name: payments-relay
+    command: python -m payments.main.relay
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_healthy
+
+  listener:
+    <<: *app-base
+    container_name: payments-listener
+    command: python -m payments.main.listener
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_healthy
+
+  consumer:
+    <<: *app-base
+    container_name: payments-consumer
+    command: python -m consumer.main
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  consumer-relay:
+    <<: *app-base
+    container_name: payments-consumer-relay
+    command: python -m consumer.main.relay
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
 volumes:
   payments_pg_data:
