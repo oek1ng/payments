@@ -73,7 +73,7 @@ class Payment(Entity[PaymentId]):
         self.status = PaymentStatus.FAILED
         self.updated_at = updated_at
 
-    def mark_pending(self) -> None:
+    def mark_pending(self, updated_at: datetime) -> None:
         """Revert the payment status to pending."""
         self.status = PaymentStatus.PENDING
-        self.updated_at = self.updated_at
+        self.updated_at = updated_at
