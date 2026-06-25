@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-install-project
 COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked
+    uv sync --locked --all-packages
 
 
 FROM python:3.14-slim-trixie
@@ -20,6 +20,8 @@ COPY --from=builder --chown=nonroot:nonroot /app /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
+
+RUN mkdir -p /app/data && chown nonroot:nonroot /app/data
 
 USER nonroot
 WORKDIR /app

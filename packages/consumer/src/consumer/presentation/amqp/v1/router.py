@@ -52,7 +52,7 @@ async def on_payment_created(
         return
 
     try:
-        await handler(event.payment_id)
+        await handler(event.id)
     except AlreadyProcessedError as exc:
         logger.debug("Duplicate payment skipped", extra={"payment_id": exc.payment_id})
 

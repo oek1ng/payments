@@ -8,7 +8,9 @@ from pydantic import BaseModel
 class PaymentCreatedSchema(BaseModel):
     """Schema for the payments.new message from the outbox relay."""
 
-    payment_id: UUID
+    model_config = {"extra": "ignore"}
+
+    id: UUID
 
 
 class PaymentProcessedSchema(BaseModel):

@@ -9,6 +9,7 @@ from faststream import AckPolicy
 from faststream.rabbit import RabbitMessage, RabbitRouter
 from pydantic import ValidationError
 
+from payments.application.common.errors import WebhookError
 from payments.application.update_payment_status import (
     UpdatePaymentStatusCommand,
     UpdatePaymentStatusHandler,
@@ -63,7 +64,10 @@ async def on_payment_processed(
         payment_id=PaymentId(event.payment_id),
         status=event.status,
     )
-    await handler(command)
+    try:
+        await handler(command)
+    except WebhookError:
+        logger.exception("Webhook delivery failed, payment status already updated")
     await message.ack()
 
 

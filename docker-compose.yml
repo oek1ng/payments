@@ -60,6 +60,8 @@ services:
     command: python -m payments.main.web
     environment:
       APP_HOST: 0.0.0.0
+      POSTGRES_HOST: postgres
+      RABBIT_HOST: rabbitmq
     depends_on:
       migrator:
         condition: service_completed_successfully
@@ -70,6 +72,7 @@ services:
     <<: *app-base
     container_name: payments-relay
     command: python -m payments.main.relay
+    restart: unless-stopped
     depends_on:
       migrator:
         condition: service_completed_successfully
@@ -80,6 +83,7 @@ services:
     <<: *app-base
     container_name: payments-listener
     command: python -m payments.main.listener
+    restart: unless-stopped
     depends_on:
       migrator:
         condition: service_completed_successfully
@@ -90,6 +94,12 @@ services:
     <<: *app-base
     container_name: payments-consumer
     command: python -m consumer.main
+    restart: unless-stopped
+    volumes:
+      - consumer_data:/app/data
+    environment:
+      DATABASE_PATH: /app/data/consumer.db
+      RABBIT_HOST: rabbitmq
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -98,9 +108,16 @@ services:
     <<: *app-base
     container_name: payments-consumer-relay
     command: python -m consumer.main.relay
+    restart: unless-stopped
+    volumes:
+      - consumer_data:/app/data
+    environment:
+      DATABASE_PATH: /app/data/consumer.db
+      RABBIT_HOST: rabbitmq
     depends_on:
       rabbitmq:
         condition: service_healthy
 
 volumes:
   payments_pg_data:
+  consumer_data:

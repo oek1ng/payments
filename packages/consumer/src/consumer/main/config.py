@@ -8,6 +8,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppSettings(BaseSettings):
     """Application-level settings."""
 
+    model_config = SettingsConfigDict(extra="ignore")
+
     name: str = "consumer"
     env: str = "local"
     debug: bool = True
@@ -16,6 +18,8 @@ class AppSettings(BaseSettings):
 
 class RabbitSettings(BaseSettings):
     """RabbitMQ connection settings."""
+
+    model_config = SettingsConfigDict(extra="ignore")
 
     host: str = "localhost"
     port: int = 5672
@@ -32,11 +36,15 @@ class RabbitSettings(BaseSettings):
 class DatabaseSettings(BaseSettings):
     """SQLite database settings."""
 
+    model_config = SettingsConfigDict(extra="ignore")
+
     path: str = "consumer.db"
 
 
 class ProcessingSettings(BaseSettings):
     """Payment processing emulation settings."""
+
+    model_config = SettingsConfigDict(extra="ignore")
 
     min_delay_seconds: float = 2.0
     max_delay_seconds: float = 5.0
@@ -45,6 +53,8 @@ class ProcessingSettings(BaseSettings):
 
 class OutboxSettings(BaseSettings):
     """Outbox relay settings."""
+
+    model_config = SettingsConfigDict(extra="ignore")
 
     relay_enabled: bool = True
     batch_size: int = 100

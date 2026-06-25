@@ -138,7 +138,8 @@ class SQLiteOutboxStore:
             (retry_base_seconds, now, batch_size),
         )
         rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+        column_names = [desc[0] for desc in cursor.description]
+        return [dict(zip(column_names, row, strict=False)) for row in rows]
 
     async def mark_outbox_published(self, event_id: str) -> None:
         """Mark an outbox event as published.

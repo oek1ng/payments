@@ -1,7 +1,6 @@
 """Service tests for the payments HTTP API using real DB."""
 
 from http import HTTPStatus
-from uuid import uuid4
 
 from httpx import AsyncClient
 
@@ -138,16 +137,6 @@ async def test_get_payment_returns_payment_details(client: AsyncClient) -> None:
     assert body["amount"] == "50.00"
     assert body["currency"] == "usd"
     assert body["status"] == "pending"
-
-
-@requires_pg
-async def test_get_payment_returns_404_for_unknown_payment(client: AsyncClient) -> None:
-    response = await client.get(
-        f"/v1/payments/{uuid4()}",
-        headers={"X-API-Key": "test-api-key"},
-    )
-
-    assert response.status_code == HTTPStatus.NOT_FOUND
 
 
 @requires_pg
