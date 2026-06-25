@@ -56,6 +56,8 @@ payments_table = Table(
 
 def map_payments_table() -> None:
     """Map the Payment entity to the payments SQLAlchemy table."""
+    if hasattr(Payment, "__table__"):
+        return
     mapper_registry.map_imperatively(
         Payment,
         payments_table,

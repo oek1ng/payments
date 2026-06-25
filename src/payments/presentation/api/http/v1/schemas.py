@@ -14,7 +14,7 @@ from payments.domain.value_objects.payment_status import PaymentStatus
 class CreatePaymentRequest(BaseModel):
     """Request body for creating a payment."""
 
-    amount: Decimal
+    amount: Decimal = Field(gt=0)
     currency: Currency
     description: str
     webhook_url: str

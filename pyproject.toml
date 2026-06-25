@@ -31,6 +31,8 @@ build-backend = "hatchling.build"
 dev = [
     "mypy>=2.1.0",
     "ruff>=0.15.19",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25",
 ]
 
 [tool.ruff]
@@ -64,12 +66,51 @@ ignore = [
 "src/payments/main/di.py" = [
     "D102",      # Provider methods are self-documenting
 ]
-"tests/**/*.py" = [
+"tests/*.py" = [
+    "D100",      # Missing module docstring
+    "D101",      # Missing class docstring
+    "D102",      # Missing method docstring
     "D103",      # Missing docstring in public function
+    "D104",      # Missing docstring in public package
+    "D107",      # Missing docstring in __init__
     "S101",      # Use of assert
     "PLR2004",   # Magic value comparison
+    "PLR6301",   # Method could be function/classmethod
     "ARG001",    # Unused function argument
+    "ARG005",    # Unused lambda argument
     "INP001",    # Missing __init__.py
+    "FBT001",    # Boolean positional arg in function definition
+    "EM101",     # Exception must not use f-string
+    "EM102",     # Exception must not use dot-notation
+    "TRY003",    # Avoid specifying long messages outside the exception class
+    "TRY300",    # Consider moving to else block
+    "B904",      # Raise from within except block
+    "RUF029",    # Unused async (test fixtures are async for consistency)
+    "PLR0915",   # Too many statements (test helpers are ok)
+    "PLW0717",   # Too many statements in try clause (test helpers are ok)
+]
+"tests/**/*.py" = [
+    "D100",      # Missing module docstring
+    "D101",      # Missing class docstring
+    "D102",      # Missing method docstring
+    "D103",      # Missing docstring in public function
+    "D104",      # Missing docstring in public package
+    "D107",      # Missing docstring in __init__
+    "S101",      # Use of assert
+    "PLR2004",   # Magic value comparison
+    "PLR6301",   # Method could be function/classmethod
+    "ARG001",    # Unused function argument
+    "ARG005",    # Unused lambda argument
+    "INP001",    # Missing __init__.py
+    "FBT001",    # Boolean positional arg in function definition
+    "EM101",     # Exception must not use f-string
+    "EM102",     # Exception must not use dot-notation
+    "TRY003",    # Avoid specifying long messages outside the exception class
+    "TRY300",    # Consider moving to else block
+    "B904",      # Raise from within except block
+    "RUF029",    # Unused async (test fixtures are async for consistency)
+    "PLR0915",   # Too many statements (test helpers are ok)
+    "PLW0717",   # Too many statements in try clause (test helpers are ok)
 ]
 
 [tool.ruff.format]
@@ -92,3 +133,7 @@ plugins = ["sqlalchemy.ext.mypy.plugin"]
 [[tool.mypy.overrides]]
 module = ["dishka.*", "dishka_faststream.*"]
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

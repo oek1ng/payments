@@ -4,7 +4,7 @@ import logging
 
 import httpx
 from dishka import Provider, Scope, provide
-from dishka.integrations.faststream import setup_dishka
+from dishka_faststream import setup_dishka
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
 

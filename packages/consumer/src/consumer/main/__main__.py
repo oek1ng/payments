@@ -3,7 +3,7 @@
 import asyncio
 import logging
 
-from dishka.integrations.faststream import setup_dishka
+from dishka_faststream import setup_dishka
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
 

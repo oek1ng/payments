@@ -4,7 +4,7 @@ import logging
 from typing import Any
 
 from dishka import FromDishka
-from dishka.integrations.faststream import inject
+from dishka_faststream import inject
 from faststream import AckPolicy
 from faststream.rabbit import RabbitMessage, RabbitRouter
 from pydantic import ValidationError
